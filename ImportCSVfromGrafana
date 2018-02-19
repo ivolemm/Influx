@@ -1,0 +1,91 @@
+"""
+csv inlezen
+first column = timestamp
+following columns = values; header = measurement name
+define number of columns => number of measurement names
+
+connect to influxDB
+parse values to influxDB in blocks of size limit = 5000
+
+close all.
+"""
+
+
+import csv
+import string
+import datetime
+import time
+
+def stringSplitter(str, divider):
+    """split string in 2 parts, divided by the first occurrence of the 'devider',
+    2 parts are stripped from leading and tailing white spaces and '"' (quotes)."""
+    dividerIndex = str.find(divider)
+    strPart1 = str[0:dividerIndex].strip('" "')
+    strPart2 = str[dividerIndex+1:len(str)].strip('" ')
+    #return [strPart1, strPart2]
+    return [strPart1]
+
+def time_RFC3339_to_Influx_epoch(timeString):
+    """ only valid format : "2018-02-13T06:44:25.000Z"
+        epoch in nanoseconds
+        REMARK : time conversion from RFC3339 is according to Python standard modules
+                        probably not correct !!!"""
+    """
+    https://stackoverflow.com/questions/969285/
+    how-do-i-translate-a-iso-8601-datetime-string-into-a-python-datetime-object:
+
+    import dateutil.parser
+    datestring = "2018-02-13T06:44:35.000000000Z"
+    yourdate = dateutil.parser.parse(datestring)
+    print(yourdate)
+    """
+    timeEpoch = int(time.mktime(time.strptime(timeString[:19], '%Y-%m-%dT%H:%M:%S')))
+    print(timeEpoch)
+    decimalSeconds = timeString[19:].strip('.Z')
+    print(decimalSeconds)
+    decimalSeconds = '{:0<9}'.format(decimalSeconds)
+    print(decimalSeconds)
+    timeInflux = str(timeEpoch) + decimalSeconds
+    return(timeInflux)
+
+
+
+
+### START ###
+# location of data file to ingest is hard coded
+csvDataFileDir = "c:\TEMP\\"
+csvDataFileName = "DATA.csv"
+ingestFileName = "ingest.txt"
+
+csvDataFile = csvDataFileDir + csvDataFileName
+ingestFile = csvDataFileDir + ingestFileName
+lineCounter = 0
+m = []
+mList = []
+mValue = []
+mValueList = []
+with open(csvDataFile, 'r') as csvFile:
+    data = csv.reader(csvFile, delimiter=';')
+    for row in data:
+        lineCounter += 1
+        m = row
+        mList.append(m)
+print(mList[3:])
+print(len(mList[2]))
+print(lineCounter)
+for m in mList[1][1:]:
+    for element in mList[3:5]:
+        timestamp = time_RFC3339_to_Influx_epoch(element[0])
+        for value in element[1:]:
+            valueStr = "value=" + value
+            mValue = [''.join(stringSplitter(m, " ")), valueStr, timestamp]
+            mValueList.append(mValue)
+print(mValueList)
+
+with open(ingestFile, "w", newline="") as f:
+    lines = []
+    for element in mValueList:
+        line = (element[0] + " " + str(element[1]) + " " + element[2] + "\n")
+        lines.append(line)
+    print(''.join(lines))
+    f.writelines(lines)
