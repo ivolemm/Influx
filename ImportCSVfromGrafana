@@ -1,13 +1,14 @@
+
 """
-csv inlezen
-first column = timestamp
-following columns = values; header = measurement name
-define number of columns => number of measurement names
-
-connect to influxDB
-parse values to influxDB in blocks of size limit = 5000
-
-close all.
+csv file export from Grafana
+read csv file
+convert to txt file: one row is one measurement point:
+    measurement name value timestamp
+this txt file can be imported in influx.
+have influx installed
+in terminal window (ubuntu) do:
+    curl -i -XPOST 'http://localhost:8086/write?db=algist_db' --data-binary @/home/ubuntu/Documenten/data_sets/ingest.txt
+(with ingest.txt the file of measurement points
 """
 
 
@@ -40,11 +41,11 @@ def time_RFC3339_to_Influx_epoch(timeString):
     print(yourdate)
     """
     timeEpoch = int(time.mktime(time.strptime(timeString[:19], '%Y-%m-%dT%H:%M:%S')))
-    print(timeEpoch)
+    #print(timeEpoch)
     decimalSeconds = timeString[19:].strip('.Z')
-    print(decimalSeconds)
+    #print(decimalSeconds)
     decimalSeconds = '{:0<9}'.format(decimalSeconds)
-    print(decimalSeconds)
+    #print(decimalSeconds)
     timeInflux = str(timeEpoch) + decimalSeconds
     return(timeInflux)
 
@@ -54,8 +55,8 @@ def time_RFC3339_to_Influx_epoch(timeString):
 ### START ###
 # location of data file to ingest is hard coded
 csvDataFileDir = "c:\TEMP\\"
-csvDataFileName = "DATA.csv"
-ingestFileName = "ingest.txt"
+csvDataFileName = "77-3h-grafana_data_export.csv"
+ingestFileName = "ingest-3h.txt"
 
 csvDataFile = csvDataFileDir + csvDataFileName
 ingestFile = csvDataFileDir + ingestFileName
@@ -70,17 +71,25 @@ with open(csvDataFile, 'r') as csvFile:
         lineCounter += 1
         m = row
         mList.append(m)
-print(mList[3:])
 print(len(mList[2]))
+#print(mList)
 print(lineCounter)
+
+tagList = []
 for m in mList[1][1:]:
-    for element in mList[3:5]:
-        timestamp = time_RFC3339_to_Influx_epoch(element[0])
-        for value in element[1:]:
-            valueStr = "value=" + value
-            mValue = [''.join(stringSplitter(m, " ")), valueStr, timestamp]
-            mValueList.append(mValue)
-print(mValueList)
+    tag = ''.join(stringSplitter(m, " "))
+    tagList.append(tag)
+print(tagList)
+
+for row in mList[3:]:
+    timestamp = time_RFC3339_to_Influx_epoch(row[0])
+    tagNr = 0
+    #print(tagList[tagNr])
+    for column in row[1:]:
+        valueStr = "value=" + column
+        mValue = [tagList[tagNr], valueStr, timestamp]
+        mValueList.append(mValue)
+        tagNr += 1
 
 with open(ingestFile, "w", newline="") as f:
     lines = []
@@ -89,3 +98,6 @@ with open(ingestFile, "w", newline="") as f:
         lines.append(line)
     print(''.join(lines))
     f.writelines(lines)
+
+
+
