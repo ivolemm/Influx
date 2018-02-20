@@ -27,4 +27,7 @@ SELECT LAST VALUE OF MEASUREMENT WITHIN TIME RANGE
 >>> print(result)
 ResultSet({'(u'FT.77.14.01', None)': [{u'last_value': 123.3, u'time': u'2018-02-13T08:32:35Z'}]})
 
+>>> result = client.query('select last(/value/) from \"FT.77.14.01\", \"FT.77.NA.05\" where time > 1518510730000000000 and time <1518510760000000000 ;')
+>>> print(result)
+ResultSet({'(u'FT.77.14.01', None)': [{u'last_value': 123.3, u'time': u'2018-02-13T08:32:35Z'}], '(u'FT.77.NA.05', None)': [{u'last_value': 0.1, u'time': u'2018-02-13T08:32:35Z'}]})
 
