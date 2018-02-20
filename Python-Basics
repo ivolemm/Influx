@@ -22,4 +22,9 @@ True
 >>> print("result: {0}".format(result))
 result: ResultSet({'(u'FT.77.14.01', None)': [{u'value': 148.3, u'time': u'2018-02-13T05:44:30Z'}, {u'value': 147.9, u'time': u'2018-02-13T05:44:35Z'}]})
 
+SELECT LAST VALUE OF MEASUREMENT WITHIN TIME RANGE
+>>> result = client.query('select last(/value/) from \"FT.77.14.01\" where time > 1518510730000000000 and time <1518510760000000000 ;')
+>>> print(result)
+ResultSet({'(u'FT.77.14.01', None)': [{u'last_value': 123.3, u'time': u'2018-02-13T08:32:35Z'}]})
+
 
