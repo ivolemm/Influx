@@ -37,3 +37,15 @@ name: FT.77.14.01
 time                last_value
 ----                ----------
 1518510755000000000 123.3
+
+SELECT LAST VALUE FROM MULTIPLE MEASUREMENTs WITHIN TIME RANGE
+> select last(/value/) from "FT.77.14.01", "FT.77.NA.05" where time > 1518510730000000000 and time <1518510760000000000
+name: FT.77.14.01
+time                last_value
+----                ----------
+1518510755000000000 123.3
+
+name: FT.77.NA.05
+time                last_value
+----                ----------
+1518510755000000000 0.1
