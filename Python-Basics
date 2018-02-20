@@ -1,0 +1,25 @@
+see also: http://influxdb-python.readthedocs.io/en/latest/include-readme.html#
+
+in Python IDLE:
+
+>>> json_body = [
+      {
+        "measurement": "FT.77.14.01", 
+        "tags": {
+        },  
+        "time": "2018-02-20T12:00:00Z", 
+        "fields": {
+          "value": 100.00
+          }
+      }
+    ]
+>>> client.write_points(json_body)
+True
+
+>>> json_body = [{"measurement": "FT.77.14.01", "tags": {}, "time": "2018-02-20T12:00:00Z", "fields": {"value": 100.00}}]
+
+>>> result = client.query('select value from \"FT.77.14.01\" limit 2;')
+>>> print("result: {0}".format(result))
+result: ResultSet({'(u'FT.77.14.01', None)': [{u'value': 148.3, u'time': u'2018-02-13T05:44:30Z'}, {u'value': 147.9, u'time': u'2018-02-13T05:44:35Z'}]})
+
+
