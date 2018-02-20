@@ -1,4 +1,20 @@
 see: https://www.youtube.com/watch?v=34oOp1OLOUk
+first installation: Go, Git, toroisehg
+
+
+C:\>cd go
+C:\Go>mkdir projects
+C:\Go>set "GOPATH=C:\Go\projects"
+C:\Go>cd %gopath%
+C:\Go\projects>go get github.com/influxdata/influxdb
+C:\Go\projects>cd src\github.com\influxdata\influxdb
+C:\Go\projects\src\github.com\influxdata\influxdb>go get -u -f ./...
+C:\Go\projects\src\github.com\influxdata\influxdb>cd %gopath%\bin
+C:\Go\projects\bin>influxd config > influxdb.generated.conf
+C:\Go\projects\bin>copy influxdb.generated.conf influxdb.conf
+  1 file(s) copied.
+C:\Go\projects\bin>start wordpad influxdb.conf
+C:\Go\projects\bin>influxd -config influxdb.conf
 
 configuration file:
 C:\Go\projects\bin>start wordpad influxdb.conf
