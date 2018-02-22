@@ -54,3 +54,11 @@ $ curl -G 'http://localhost:8086/query' --data-urlencode "db=SIL01_db" --data-ur
                 ["2018-02-13T08:32:25Z",0.1],
                 ["2018-02-13T08:32:30Z",0.1],
                 ["2018-02-13T08:32:35Z",0.1]]}]}]}
+
+**************
+CSV output ??? seems not to work
+$ curl -H "Accept: application/csv" -G 'http://localhost:8086/query?db=SIL01_db' --data-urlencode "q=SELECT \"value\" FROM \"FT.77.14.01\" WHERE time > 1518510730000000000 and time <1518510760000000000 "
+{"results":[{"series":[{"name":"FT.77.14.01","columns":["time","value"],"values":[["2018-02-13T08:32:15Z",125.1],["2018-02-13T08:32:20Z",124.2],["2018-02-13T08:32:25Z",124.7],["2018-02-13T08:32:30Z",123.8],["2018-02-13T08:32:35Z",123.3]]}]}]}factry@ALGIST-SIL01:~$
+$ curl -H "Accept: application/csv" -G 'http://localhost:8086/query?db=SIL01_db' --data-urlencode "q=SELECT last(value) FROM \"FT.77.14.01\" WHERE time > 1518510730000000000 and time <1518510760000000000 "
+{"results":[{"series":[{"name":"FT.77.14.01","columns":["time","last"],"values":[["2018-02-13T08:32:35Z",123.3]]}]}]}factry@ALGIST-SIL01:~$
+
