@@ -24,9 +24,10 @@ C:\Go\projects\bin>influxd -config influxdb.conf
 
 
 **************
-to use HTTP API (curl) from windows CMD, install first RTE: http://www.curl.com/download/rte/dlwin.html
+*to use HTTP API (curl) from windows CMD,*
+install first RTE: http://www.curl.com/download/rte/dlwin.html
 or
-http://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/objectstorage/restrict_rw_accs_cntainers_REST_API/files/installing_curl_command_line_tool_on_windows.html
+(http://www.oracle.com/webfolder/technetwork/tutorials/obe/cloud/objectstorage/restrict_rw_accs_cntainers_REST_API/files/installing_curl_command_line_tool_on_windows.html)
 
 
 C:\Users\il>curl -G "http://{IPadress of influxdb}:8086/query" --data-urlencode "db=mydb" --data-urlencode "q=SELECT \"value\" FROM \"FT.77.14.01\" WHERE time > 1518510730000000000 and time <1518510760000000000"
@@ -34,3 +35,6 @@ C:\Users\il>curl -G "http://{IPadress of influxdb}:8086/query" --data-urlencode 
 
 C:\Users\il>curl -G 'http://{IPadress of influxdb}:8086/query' --data-urlencode "db=mydb" --data-urlencode "q=SELECT \"value\" FROM \"FT.77.14.01\" WHERE time > 1518510730000000000 and time <1518510760000000000"
 curl: (1) Protocol "'http" not supported or disabled in libcurl
+
+Read also : https://help.zendesk.com/hc/en-us/articles/229136847-Installing-and-using-cURL#curl_win
+especially on use of "" instead of '' and ^ as replacement for \
