@@ -21,3 +21,7 @@ C:\Go\projects\bin>start wordpad influxdb.conf
 
 startcommand for influxdb:
 C:\Go\projects\bin>influxd -config influxdb.conf
+
+
+**************
+to use HTTP API (curl) from windows CMD, install first RTE: http://www.curl.com/download/rte/dlwin.html
