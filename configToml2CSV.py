@@ -7,18 +7,21 @@ import csv
 # Header starting with [input]
 """
 [input]
-url             = "opc.tcp://3.100.90.64:55101"
+url             = "opc.tcp://YOUR.INFLUX.IP_ADDRESS:PORT_NUMBER"
 failoverTimeout = 5000 # time to wait before reconnection in case of failure
+
+# REPLACE "INFLUX_IP_ADDRESS" BY YOUR host
+# REPLACE "INFLUX_DATABASE_NAME" BY YOUR database
 
 [output]
 name             = "influx_1"
 type             = "influxdb"
-host             = "3.100.90.65"
+host             = "INFLUX_IP_ADRESS"
 port             = 8086
 protocol         = "http"
 username         = "factrylogger"
 password         = "factrylogger"
-database         = "testdb"
+database         = "INFLUX_DATABASE_NAME"
 failoverTimeout  = 10000
 bufferMaxSize    = 64
 writeInterval    = 2000
@@ -30,8 +33,8 @@ writeMaxPoints   = 1500
 [[measurements]]
 name               = "LT.39.10.01_L_AI"
 dataType           = "number"
-tags               = { description = "Niveaumeting mengtank ammoniumsulfaat 3V" }
-nodeId             = "ns=4;s=S7:[AU_39_03]DB504,REAL48"
+tags               = { description = "DESCRIPTION" }
+nodeId             = "ns=4;s=S7:[PLC_NAME]PLC_MEMORY_LOCATION"
 collectionType     = "polled"
 pollRate           = 60
 monitorResolution  = 500
