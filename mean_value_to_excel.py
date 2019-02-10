@@ -1,6 +1,6 @@
 #! C:\Users\il\AppData\Local\Programs\Python\Python36\python.exe
 #
-# TODO: clean up, add/correct comments
+# TODO: clean up, add/correct comments, config.ini file, ...
 # tested -and in production- on databases with 1 measurement for each tag (no use of field keys)
 # timestamp set to nanosecond
 # ... other prerequisites : to add
