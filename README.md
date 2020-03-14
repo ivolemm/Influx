@@ -2,7 +2,7 @@
 
 ### configToml2CSV.py  
 Convert the 'config.toml' of influxdb measurements json to readable csv file.  
-For config.toml, contact http://www.factry.io
+For config.toml, contact http://www.factry.io  
     2020-03-14: outdated. Factry uses browser based UI to append metrics to influxDB.
 
 ### MEAN_VALUE_TO_EXCEL  
